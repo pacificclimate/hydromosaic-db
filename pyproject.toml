@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hydromosaic"
+version = "0.1.0"
+description = "An ORM representation of the HydroMosaic watershed database"
+authors = ["Lee Zeman <lzeman@uvic.ca>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+alembic = "^1.14.0"
+geoalchemy2 = "^0.16.0"
+psycopg2 = "^2.9.10"
+sqlalchemy = "^2.0.36"
+black = "^24.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
