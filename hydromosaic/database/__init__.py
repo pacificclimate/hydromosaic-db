@@ -8,8 +8,9 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     UniqueConstraint,
+    Date,
 )
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from geoalchemy2 import Geometry
 
 Base = declarative_base()
@@ -50,7 +51,7 @@ class Datafile(Base):
 class Model(Base):
     __tablename__ = "models"
     __table_args__ = {"schema": hm_schema}
-    id = Column("models_id", Integer, primary_key=True)
+    id = Column("model_id", Integer, primary_key=True)
     long_name = Column(String)
     short_name = Column(String)
 
@@ -58,7 +59,7 @@ class Model(Base):
 class Scenario(Base):
     __tablename__ = "scenarios"
     __table_args__ = {"schema": hm_schema}
-    id = Column("scenarios_id", Integer, primary_key=True)
+    id = Column("scenario_id", Integer, primary_key=True)
     long_name = Column(String)
     short_name = Column(String)
 
@@ -74,7 +75,7 @@ class Timeseries(Base):
         Integer, ForeignKey("{}.variables.variable_id".format(hm_schema))
     )
     datafile_id = Column(
-        Integer, ForeignKey("{}.datafiles.datafile_id".format(hm_schema))
+        Integer, ForeignKey("{}.data_files.data_file_id".format(hm_schema))
     )
     model_id = Column(Integer, ForeignKey("{}.models.model_id".format(hm_schema)))
     scenario_id = Column(
