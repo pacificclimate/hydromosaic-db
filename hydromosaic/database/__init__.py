@@ -92,7 +92,9 @@ class River(Base):
     id = Column(
         "fid", Integer, primary_key=True, server_default=shared_fid_seq.next_value()
     )
-    sub_id = Column(Integer, nullable=False)
+    sub_id = Column(
+        Integer, ForeignKey("{}.outlets.outlet_id".format(hm_schema)), nullable=False
+    )
     dow_sub_id = Column(Integer)
     seg_id = Column(Integer, nullable=False)
     geom = Column(Geometry("MULTILINESTRING", srid=3005, spatial_index=True))
@@ -104,6 +106,8 @@ class Lake(Base):
     id = Column(
         "fid", Integer, primary_key=True, server_default=shared_fid_seq.next_value()
     )
-    sub_id = Column(Integer, nullable=False)
+    sub_id = Column(
+        Integer, ForeignKey("{}.outlets.outlet_id".format(hm_schema)), nullable=False
+    )
     hy_lake_id = Column(Integer, nullable=False)
     geom = Column(Geometry("MULTIPOLYGON", srid=3005, spatial_index=True))
