@@ -9,12 +9,14 @@ from sqlalchemy import (
     Index,
     UniqueConstraint,
     Date,
+    Sequence,
 )
 from sqlalchemy.orm import declarative_base
 from geoalchemy2 import Geometry
 
 Base = declarative_base()
 hm_schema = "hydro_geometry"  # change if needed
+shared_fid_seq = Sequence("shared_fid_seq", schema=hm_schema)
 
 
 class Outlet(Base):
@@ -82,3 +84,26 @@ class Timeseries(Base):
         Integer, ForeignKey("{}.scenarios.scenario_id".format(hm_schema))
     )
     num_times = Column(Integer)
+
+
+class River(Base):
+    __tablename__ = "rivers"
+    __table_args__ = {"schema": hm_schema}
+    id = Column(
+        "fid", Integer, primary_key=True, server_default=shared_fid_seq.next_value()
+    )
+    sub_id = Column(Integer, nullable=False)
+    dow_sub_id = Column(Integer)
+    seg_id = Column(Integer, nullable=False)
+    geom = Column(Geometry("MULTILINESTRING", srid=3005, spatial_index=True))
+
+
+class Lake(Base):
+    __tablename__ = "lakes"
+    __table_args__ = {"schema": hm_schema}
+    id = Column(
+        "fid", Integer, primary_key=True, server_default=shared_fid_seq.next_value()
+    )
+    sub_id = Column(Integer, nullable=False)
+    hy_lake_id = Column(Integer, nullable=False)
+    geom = Column(Geometry("MULTIPOLYGON", srid=3005, spatial_index=True))
