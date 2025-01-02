@@ -16,7 +16,7 @@ from geoalchemy2 import Geometry
 
 Base = declarative_base()
 hm_schema = "hydro_geometry"  # change if needed
-shared_fid_seq = Sequence("shared_fid_seq", schema=hm_schema)
+shared_fid_seq = Sequence("shared_fid_seq", schema=hm_schema, metadata=Base.metadata)
 
 
 class Outlet(Base):
@@ -90,7 +90,11 @@ class River(Base):
     __tablename__ = "rivers"
     __table_args__ = {"schema": hm_schema}
     id = Column(
-        "fid", Integer, primary_key=True, server_default=shared_fid_seq.next_value()
+        "fid",
+        Integer,
+        shared_fid_seq,
+        primary_key=True,
+        server_default=shared_fid_seq.next_value(),
     )
     sub_id = Column(
         Integer, ForeignKey("{}.outlets.outlet_id".format(hm_schema)), nullable=False
@@ -104,7 +108,11 @@ class Lake(Base):
     __tablename__ = "lakes"
     __table_args__ = {"schema": hm_schema}
     id = Column(
-        "fid", Integer, primary_key=True, server_default=shared_fid_seq.next_value()
+        "fid",
+        Integer,
+        shared_fid_seq,
+        primary_key=True,
+        server_default=shared_fid_seq.next_value(),
     )
     sub_id = Column(
         Integer, ForeignKey("{}.outlets.outlet_id".format(hm_schema)), nullable=False
