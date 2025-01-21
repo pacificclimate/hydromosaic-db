@@ -24,7 +24,7 @@ def upgrade():
     op.create_table(
         "outlets",
         sa.Column("outlet_id", sa.Integer(), nullable=False),
-        sa.Column("code", sa.String(), nullable=False),
+        sa.Column("code", sa.Integer(), nullable=False),
         sa.PrimaryKeyConstraint("outlet_id"),
         schema = schema_name
         )
