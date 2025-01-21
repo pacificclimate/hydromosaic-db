@@ -11,10 +11,9 @@ from sqlalchemy import (
     Date,
 )
 from sqlalchemy.orm import declarative_base
-from geoalchemy2 import Geometry
 
 Base = declarative_base()
-hm_schema = "hydro_geometry"  # change if needed
+hm_schema = "hydromosaic"  # change if needed
 
 
 class Outlet(Base):

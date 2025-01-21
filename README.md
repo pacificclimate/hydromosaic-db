@@ -3,7 +3,7 @@ Hydromosaic-db
 
 The hydromosaic database stores metadata about modeled stream flow, stream temperature, and oxygen content. The data is in netCDF files, each of which contains multiple timeseries calculated for different stream outlets. This database supports a data server to locate and stream available data for each stream outlet. 
 
-It has how geographical data on the locations or relationships of stream outlets; geography and mapping are handled by a separate database.
+It has no geographical data on the locations or upstream/downstream relationships of stream outlets; geography and mapping are handled by a separate database.
 
 Initializing a new database
 ---------------------------
