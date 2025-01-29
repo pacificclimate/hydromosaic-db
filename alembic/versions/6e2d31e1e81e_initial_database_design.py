@@ -39,13 +39,6 @@ def upgrade():
         schema = schema_name
         )
 
-    op.create_table(
-        "times",
-        sa.Column("time_id", sa.Integer(), nullable = False),
-        sa.Column("time", sa.Date(), nullable = False),
-        sa.PrimaryKeyConstraint("time_id"),
-        schema = schema_name
-        )
     
     op.create_table(
         "data_files",
@@ -79,8 +72,8 @@ def upgrade():
         "timeseries",
         sa.Column("timeseries_id", sa.Integer(), nullable = False),
         sa.Column("outlet_id", sa.Integer(), nullable = False),
-        sa.Column("start_time", sa.Integer(), nullable = False),
-        sa.Column("end_time", sa.Integer(), nullable = False),
+        sa.Column("start_time", sa.Date(), nullable = False),
+        sa.Column("end_time", sa.Date(), nullable = False),
         sa.Column("variable_id", sa.Integer(), nullable = False),
         sa.Column("datafile_id", sa.Integer(), nullable = False),
         sa.Column("model_id", sa.Integer(), nullable = False),
@@ -88,8 +81,6 @@ def upgrade():
         sa.Column("num_times", sa.Integer(), nullable = False),
         sa.PrimaryKeyConstraint("timeseries_id"),
         sa.ForeignKeyConstraint(["outlet_id"], [f"{schema_name}.outlets.outlet_id"]),
-        sa.ForeignKeyConstraint(["start_time"], [f"{schema_name}.times.time_id"]),
-        sa.ForeignKeyConstraint(["end_time"], [f"{schema_name}.times.time_id"]),
         sa.ForeignKeyConstraint(["variable_id"], [f"{schema_name}.variables.variable_id"]),
         sa.ForeignKeyConstraint(["datafile_id"], [f"{schema_name}.data_files.data_file_id"]),
         sa.ForeignKeyConstraint(["model_id"], [f"{schema_name}.models.model_id"]),

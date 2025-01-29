@@ -32,13 +32,6 @@ class Variable(Base):
     units = Column(String)
 
 
-class Time(Base):
-    __tablename__ = "times"
-    __table_args__ = {"schema": hm_schema}
-    id = Column("time_id", Integer, primary_key=True)
-    time = Column(Date)
-
-
 class Datafile(Base):
     __tablename__ = "data_files"
     __table_args__ = {"schema": hm_schema}
@@ -68,8 +61,8 @@ class Timeseries(Base):
     __table_args__ = {"schema": hm_schema}
     id = Column("timeseries_id", Integer, primary_key=True)
     outlet_id = Column(Integer, ForeignKey("{}.outlets.outlet_id".format(hm_schema)))
-    start_time = Column(Integer, ForeignKey("{}.times.time_id".format(hm_schema)))
-    end_time = Column(Integer, ForeignKey("{}.times.time_id".format(hm_schema)))
+    start_time = Column(Date)
+    end_time = Column(Date)
     variable_id = Column(
         Integer, ForeignKey("{}.variables.variable_id".format(hm_schema))
     )
