@@ -54,6 +54,7 @@ def upgrade():
         sa.Column("model_id", sa.Integer(), nullable = False), 
         sa.Column("long_name", sa.String()),
         sa.Column("short_name", sa.String(), nullable = False),
+        sa.Column("institution", sa.String()),
         sa.PrimaryKeyConstraint("model_id"),
         schema = schema_name
         )

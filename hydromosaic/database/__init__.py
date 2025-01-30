@@ -46,6 +46,7 @@ class Model(Base):
     id = Column("model_id", Integer, primary_key=True)
     long_name = Column(String)
     short_name = Column(String)
+    institution = Column(String)
 
 
 class Scenario(Base):
