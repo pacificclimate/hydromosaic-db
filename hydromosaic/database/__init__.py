@@ -33,9 +33,9 @@ class Variable(Base):
 
 
 class Datafile(Base):
-    __tablename__ = "data_files"
+    __tablename__ = "datafiles"
     __table_args__ = {"schema": hm_schema}
-    id = Column("data_file_id", Integer, primary_key=True)
+    id = Column("datafile_id", Integer, primary_key=True)
     filename = Column(String)
     index_time = Column(Date)
 
@@ -68,7 +68,7 @@ class Timeseries(Base):
         Integer, ForeignKey("{}.variables.variable_id".format(hm_schema))
     )
     datafile_id = Column(
-        Integer, ForeignKey("{}.data_files.data_file_id".format(hm_schema))
+        Integer, ForeignKey("{}.datafiles.datafile_id".format(hm_schema))
     )
     model_id = Column(Integer, ForeignKey("{}.models.model_id".format(hm_schema)))
     scenario_id = Column(

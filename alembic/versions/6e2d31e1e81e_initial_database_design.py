@@ -41,11 +41,11 @@ def upgrade():
 
     
     op.create_table(
-        "data_files",
-        sa.Column("data_file_id", sa.Integer(), nullable = False),
+        "datafiles",
+        sa.Column("datafile_id", sa.Integer(), nullable = False),
         sa.Column("filename", sa.String(), nullable = False),
         sa.Column("index_time", sa.Date()),
-        sa.PrimaryKeyConstraint("data_file_id"),
+        sa.PrimaryKeyConstraint("datafile_id"),
         schema = schema_name,
         )
 
@@ -83,7 +83,7 @@ def upgrade():
         sa.PrimaryKeyConstraint("timeseries_id"),
         sa.ForeignKeyConstraint(["outlet_id"], [f"{schema_name}.outlets.outlet_id"]),
         sa.ForeignKeyConstraint(["variable_id"], [f"{schema_name}.variables.variable_id"]),
-        sa.ForeignKeyConstraint(["datafile_id"], [f"{schema_name}.data_files.data_file_id"]),
+        sa.ForeignKeyConstraint(["datafile_id"], [f"{schema_name}.datafiles.datafile_id"]),
         sa.ForeignKeyConstraint(["model_id"], [f"{schema_name}.models.model_id"]),
         sa.ForeignKeyConstraint(["scenario_id"], [f"{schema_name}.scenarios.scenario_id"]),
         )
@@ -93,7 +93,7 @@ def downgrade():
         op.drop_table("timeseries", schema=schema_name)
         op.drop_table("scenarios", schema=schema_name)
         op.drop_table("models", schema=schema_name)
-        op.drop_table("data_files", schema=schema_name)
+        op.drop_table("datafiles", schema=schema_name)
         op.drop_table("times", schema=schema_name)
         op.drop_table("variables", schema=schema_name)
         op.drop_table("outlets", schema=schema_name)
