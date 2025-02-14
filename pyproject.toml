@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "hydromosaic"
+name = "hms"
 version = "0.1.0"
 description = "An ORM representation of the HydroMosaic watershed database"
 authors = ["Lee Zeman <lzeman@uvic.ca>"]
@@ -11,6 +11,7 @@ alembic = "^1.14.0"
 psycopg2 = "^2.9.10"
 sqlalchemy = "^2.0.36"
 black = "^24.10.0"
+netcdf4 = "^1.7.2"
 
 
 [build-system]
