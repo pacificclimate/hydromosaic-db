@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "hms"
+name = "hydromosaic"
 version = "0.1.0"
 description = "An ORM representation of the HydroMosaic watershed database"
 authors = ["Lee Zeman <lzeman@uvic.ca>"]
@@ -13,6 +13,8 @@ sqlalchemy = "^2.0.36"
 black = "^24.10.0"
 netcdf4 = "^1.7.2"
 
+[tool.poetry.scripts]
+index_directory = "hydromosaic.scripts.index_directory:index"
 
 [build-system]
 requires = ["poetry-core"]

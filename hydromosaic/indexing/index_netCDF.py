@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from hydromosaic.database import Outlet, Variable, Datafile, Model, Scenario, Timeseries
-from hydromosaic.indexing.index_helpers import find_or_insert
+
 
 logger = logging.getLogger(__name__)
 
@@ -191,7 +191,7 @@ def get_scenario(nc, sesh, gcm_prefix):
 
 
 
-def main(dsn, directory, log_level, gcm_prefix):
+def index_directory(dsn, directory, log_level, gcm_prefix):
     engine = create_engine(dsn)
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -257,16 +257,4 @@ def main(dsn, directory, log_level, gcm_prefix):
         logger.error(f"{file}: {unindexable[file]}")
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser(
-        description = "Index netCDF files into hydromosaic database"
-        )
-    parser.add_argument("-d", "--dsn", help="connection string for database")
-    parser.add_argument("-l", "--log_level", help='level of logging detail', default="info", choices=["debug", "info", "warning", "error", "critical"])
-    parser.add_argument("-p", "--metadata_prefix", help="prefix for GCM metadata", default="downscaling_GCM_")
-    parser.add_argument("directory", help="directory to index")
-    args = parser.parse_args()
-    
-    
-    main(dsn = args.dsn, directory = args.directory, log_level=args.log_level, gcm_prefix = args.metadata_prefix)
 
