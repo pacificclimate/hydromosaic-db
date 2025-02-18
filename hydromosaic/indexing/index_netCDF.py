@@ -162,7 +162,7 @@ def get_model(nc, sesh, gcm_prefix):
         return model_match
     else:
         raise Exception(
-            f"{exception_prefix}{model_name} already in the database with a different institution than {model_institution}"
+            f"{exception_prefix}{model_name} exists with institution {model_match.institution}, but the file uses {model_institution}"
         )
 
 
@@ -195,7 +195,7 @@ def get_scenario(nc, sesh, gcm_prefix):
         return scenario_match
     else:
         raise Exception(
-            f"{exception_prefix}{scenario_short} already in the database with a different long name than {scenario_long}"
+            f"{exception_prefix}{scenario_short} exists with long name {scenario_match.long_name}, but the file uses {scenario_long}"
         )
 
 
@@ -232,11 +232,9 @@ def index_directory(dsn, directory, log_level, gcm_prefix):
             datafile = get_datafile(f"{directory.strip('/')}/{file}", session)
             start, end, num_times = get_timespan(nc)
 
-            # this shouldn't be neccessary, but sometimes objects don't have
-            # assigned primary keys unless a commit is made.
-            # Note that this means some objects in a file (like variables)
-            # may be added to the database, even if the whole file is not.
-            session.commit()
+            # flush objects so that they get primary keys assigned before
+            # we create the timeseries entry
+            session.flush()
 
             for variable in variables:
                 for outlet in outlets:

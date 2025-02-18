@@ -99,6 +99,5 @@ def downgrade():
     op.drop_table("scenarios", schema=schema_name)
     op.drop_table("models", schema=schema_name)
     op.drop_table("datafiles", schema=schema_name)
-    op.drop_table("times", schema=schema_name)
     op.drop_table("variables", schema=schema_name)
     op.drop_table("outlets", schema=schema_name)
