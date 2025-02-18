@@ -32,17 +32,10 @@ class Variable(Base):
     units = Column(String)
 
 
-class Time(Base):
-    __tablename__ = "times"
-    __table_args__ = {"schema": hm_schema}
-    id = Column("time_id", Integer, primary_key=True)
-    time = Column(Date)
-
-
 class Datafile(Base):
-    __tablename__ = "data_files"
+    __tablename__ = "datafiles"
     __table_args__ = {"schema": hm_schema}
-    id = Column("data_file_id", Integer, primary_key=True)
+    id = Column("datafile_id", Integer, primary_key=True)
     filename = Column(String)
     index_time = Column(Date)
 
@@ -53,6 +46,7 @@ class Model(Base):
     id = Column("model_id", Integer, primary_key=True)
     long_name = Column(String)
     short_name = Column(String)
+    institution = Column(String)
 
 
 class Scenario(Base):
@@ -68,13 +62,13 @@ class Timeseries(Base):
     __table_args__ = {"schema": hm_schema}
     id = Column("timeseries_id", Integer, primary_key=True)
     outlet_id = Column(Integer, ForeignKey("{}.outlets.outlet_id".format(hm_schema)))
-    start_time = Column(Integer, ForeignKey("{}.times.time_id".format(hm_schema)))
-    end_time = Column(Integer, ForeignKey("{}.times.time_id".format(hm_schema)))
+    start_time = Column(Date)
+    end_time = Column(Date)
     variable_id = Column(
         Integer, ForeignKey("{}.variables.variable_id".format(hm_schema))
     )
     datafile_id = Column(
-        Integer, ForeignKey("{}.data_files.data_file_id".format(hm_schema))
+        Integer, ForeignKey("{}.datafiles.datafile_id".format(hm_schema))
     )
     model_id = Column(Integer, ForeignKey("{}.models.model_id".format(hm_schema)))
     scenario_id = Column(
