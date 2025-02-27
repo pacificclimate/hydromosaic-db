@@ -10,7 +10,7 @@ Database design is handled with [sqlalchemy](https://www.sqlalchemy.org/) and [a
 
 1. Install the ORM with `poetry install`
 1. Edit the `sqlalchemy.url` line in alembic.ini to a connection string for the database you wish to update
-1. Type `poetry run alembic update head` to initialize the database
+1. Type `poetry run alembic upgrade head` to initialize the database
 
 ## Indexing netCDF files into the database
 
