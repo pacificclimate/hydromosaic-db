@@ -229,7 +229,7 @@ def index_directory(dsn, directory, log_level, gcm_prefix):
             # database objects derived from nc file data
             outlets = get_outlets(nc, session)
             variables = get_variables(nc, session)
-            datafile = get_datafile(f"{directory.strip('/')}/{file}", session)
+            datafile = get_datafile(os.path.abspath(f"{directory.strip('/')}/{file}"), session)
             start, end, num_times = get_timespan(nc)
 
             # flush objects so that they get primary keys assigned before
