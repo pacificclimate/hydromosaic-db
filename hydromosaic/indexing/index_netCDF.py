@@ -229,7 +229,7 @@ def index_directory(dsn, directory, log_level, gcm_prefix):
             # database objects derived from nc file data
             outlets = get_outlets(nc, session)
             variables = get_variables(nc, session)
-            datafile = get_datafile(os.path.abspath(f"{directory.strip('/')}/{file}"), session)
+            datafile = get_datafile(os.path.abspath(os.path.join(directory, file)), session)
             start, end, num_times = get_timespan(nc)
 
             # flush objects so that they get primary keys assigned before
@@ -266,6 +266,7 @@ def index_directory(dsn, directory, log_level, gcm_prefix):
     )
     for file in indexed:
         logger.debug("{} was indexed".format(file))
-    logger.error("The following files could not be indexed:")
-    for file in unindexable:
-        logger.error(f"{file}: {unindexable[file]}")
+    if len(unindexable):
+        logger.error("The following files could not be indexed:")
+        for file in unindexable:
+            logger.error(f"{file}: {unindexable[file]}")
