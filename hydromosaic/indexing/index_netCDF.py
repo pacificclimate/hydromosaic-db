@@ -116,7 +116,11 @@ def get_timespan(nc):
         raise Exception(f"{exception_prefix}no time variable")
     if "units" not in nc.variables["time"].ncattrs():
         raise Exception(f"{exception_prefix}time has no units")
-    if not nc.variables["time"].units.startswith("hours since "):
+    if nc.variables["time"].units.startswith("hours since "):
+        time_block = "hours"
+    elif nc.variables["time"].units.startswith("days since "):
+        time_block = "days" 
+    else:
         raise Exception(f"{exception_prefix}cannot parse time units")
 
     ref_time_str = nc.variables["time"].units.split("since ")[1]
@@ -127,19 +131,32 @@ def get_timespan(nc):
 
     time_data = nc.variables["time"][:]
 
-    return [
+    if time_block == "hours":
+        return [
         reference_date + timedelta(hours=time_data[0]),
         reference_date + timedelta(hours=time_data[-1]),
-        len(time_data),
-    ]
+        len(time_data)
+        ]
+    else:
+        return [
+        reference_date + timedelta(days=time_data[0]),
+        reference_date + timedelta(days=time_data[-1]),
+        len(time_data)
+        ]
 
 
 # TODO: genericize object attributes across model and scenario
 def get_model(nc, sesh, gcm_prefix):
-    exception_prefix = "Cannot determine model: "
-    model_attribute = f"{gcm_prefix}model_id"
-    institute_attribute = f"{gcm_prefix}institute_id"
     file_attrs = nc.ncattrs()
+
+    exception_prefix = "Cannot determine model: "
+
+    if "project_id" not in file_attrs:
+        raise Exception(f"{exception_prefix}: no project_id attribute")
+    
+    cmip_v = nc.getncattr("project_id") # which CMIP version are we using? affects attribute names
+    model_attribute = f"{gcm_prefix}model_id"
+    institute_attribute = f"{gcm_prefix}institution_id" if cmip_v == "CMIP6" else f"{gcm_prefix}institute_id"
 
     for needed in [institute_attribute, model_attribute]:
         if not f"{needed}" in file_attrs:
