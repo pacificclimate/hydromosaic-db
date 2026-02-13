@@ -119,7 +119,7 @@ def get_timespan(nc):
     if nc.variables["time"].units.startswith("hours since "):
         time_block = "hours"
     elif nc.variables["time"].units.startswith("days since "):
-        time_block = "days" 
+        time_block = "days"
     else:
         raise Exception(f"{exception_prefix}cannot parse time units")
 
@@ -133,15 +133,15 @@ def get_timespan(nc):
 
     if time_block == "hours":
         return [
-        reference_date + timedelta(hours=time_data[0]),
-        reference_date + timedelta(hours=time_data[-1]),
-        len(time_data)
+            reference_date + timedelta(hours=time_data[0]),
+            reference_date + timedelta(hours=time_data[-1]),
+            len(time_data),
         ]
     else:
         return [
-        reference_date + timedelta(days=time_data[0]),
-        reference_date + timedelta(days=time_data[-1]),
-        len(time_data)
+            reference_date + timedelta(days=time_data[0]),
+            reference_date + timedelta(days=time_data[-1]),
+            len(time_data),
         ]
 
 
@@ -153,10 +153,16 @@ def get_model(nc, sesh, gcm_prefix):
 
     if "project_id" not in file_attrs:
         raise Exception(f"{exception_prefix}: no project_id attribute")
-    
-    cmip_v = nc.getncattr("project_id") # which CMIP version are we using? affects attribute names
+
+    cmip_v = nc.getncattr(
+        "project_id"
+    )  # which CMIP version are we using? affects attribute names
     model_attribute = f"{gcm_prefix}model_id"
-    institute_attribute = f"{gcm_prefix}institution_id" if cmip_v == "CMIP6" else f"{gcm_prefix}institute_id"
+    institute_attribute = (
+        f"{gcm_prefix}institution_id"
+        if cmip_v == "CMIP6"
+        else f"{gcm_prefix}institute_id"
+    )
 
     for needed in [institute_attribute, model_attribute]:
         if not f"{needed}" in file_attrs:
@@ -246,7 +252,9 @@ def index_directory(dsn, directory, log_level, gcm_prefix):
             # database objects derived from nc file data
             outlets = get_outlets(nc, session)
             variables = get_variables(nc, session)
-            datafile = get_datafile(os.path.abspath(os.path.join(directory, file)), session)
+            datafile = get_datafile(
+                os.path.abspath(os.path.join(directory, file)), session
+            )
             start, end, num_times = get_timespan(nc)
 
             # flush objects so that they get primary keys assigned before
