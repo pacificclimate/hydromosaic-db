@@ -5,7 +5,6 @@ import pytest
 from hydromosaic.database import Model, Scenario
 from hydromosaic.indexing.index_netCDF import get_model, get_scenario
 
-
 GCM_PREFIX = "hydromodel__downscaling__GCM__"
 OBS_PREFIX = "hydromodel__observations__"
 
@@ -96,7 +95,9 @@ def test_get_model_wrong_prefix_raises_clear_error():
 
     session = MagicMock()
 
-    with pytest.raises(Exception, match="no hydromodel__observations__institution_id attribute"):
+    with pytest.raises(
+        Exception, match="no hydromodel__observations__institution_id attribute"
+    ):
         get_model(nc, session, OBS_PREFIX)
 
 

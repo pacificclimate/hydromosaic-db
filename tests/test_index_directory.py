@@ -5,7 +5,6 @@ import pytest
 from hydromosaic.database import Datafile, Model, Outlet, Scenario, Variable
 from hydromosaic.indexing.index_netCDF import index_directory
 
-
 MODULE = "hydromosaic.indexing.index_netCDF"
 
 
@@ -75,7 +74,9 @@ def test_index_directory_indexes_single_file_and_builds_timeseries(patched):
     patched["get_datafile"].return_value = datafile
     patched["get_timespan"].return_value = ["2020-01-01", "2020-12-31", 366]
 
-    index_directory(dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="p_")
+    index_directory(
+        dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="p_"
+    )
 
     # one Timeseries per (variable, outlet) pair -> 1 var * 2 outlets = 2
     added_timeseries = [
@@ -112,7 +113,9 @@ def test_index_directory_builds_timeseries_for_every_variable_outlet_pair(patche
     patched["get_datafile"].return_value = df
     patched["get_timespan"].return_value = ["2020-01-01", "2020-12-31", 366]
 
-    index_directory(dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="")
+    index_directory(
+        dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix=""
+    )
 
     added_timeseries = [
         c.args[0]
@@ -155,7 +158,9 @@ def test_index_directory_continues_after_one_file_fails(patched):
     patched["get_datafile"].return_value = good_datafile
     patched["get_timespan"].return_value = ["2020-01-01", "2020-12-31", 366]
 
-    index_directory(dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="p_")
+    index_directory(
+        dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="p_"
+    )
 
     # commit still happens once at the end, even though one file failed
     patched["session"].commit.assert_called_once()
@@ -171,10 +176,14 @@ def test_index_directory_continues_after_one_file_fails(patched):
 
 def test_index_directory_rewrites_errno_51_to_readable_message(patched, caplog):
     patched["listdir"].return_value = ["notreallynetcdf.nc"]
-    patched["Dataset"].side_effect = Exception("[Errno -51] NetCDF: Unknown file format")
+    patched["Dataset"].side_effect = Exception(
+        "[Errno -51] NetCDF: Unknown file format"
+    )
 
     with caplog.at_level("ERROR"):
-        index_directory(dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="")
+        index_directory(
+            dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix=""
+        )
 
     assert any("Not a NetCDF file" in message for message in caplog.messages)
     assert not any("Errno -51" in message for message in caplog.messages)
@@ -215,7 +224,9 @@ def test_index_directory_no_timeseries_when_no_outlets_or_variables(patched):
     patched["get_datafile"].return_value = df
     patched["get_timespan"].return_value = ["2020-01-01", "2020-12-31", 366]
 
-    index_directory(dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix="")
+    index_directory(
+        dsn="sqlite://", directory="/some/dir", log_level="info", gcm_prefix=""
+    )
 
     added_timeseries = [
         c.args[0]
