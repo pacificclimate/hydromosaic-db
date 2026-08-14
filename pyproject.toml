@@ -11,16 +11,17 @@ alembic = "^1.19.0"
 psycopg2 = "^2.9.12"
 sqlalchemy = "^2.0.51"
 netcdf4 = "^1.7.3"
+black = "^26.5.1"
 
 [tool.poetry.scripts]
 index_directory = "hydromosaic.scripts.index_directory:index"
+
+[tool.black]
+required-version = "26.5.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [dependency-groups]
-dev = [
-    "pytest (>=9.1.1,<10.0.0)",
-    "black (>=26.5.1,<27.0.0)"
-]
+dev = ["pytest (>=9.1.1,<10.0.0)"]
