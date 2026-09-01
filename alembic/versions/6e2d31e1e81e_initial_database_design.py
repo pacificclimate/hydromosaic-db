@@ -1,7 +1,7 @@
 """initial database design
 
 Revision ID: 6e2d31e1e81e
-Revises: 
+Revises:
 Create Date: 2025-01-16 20:19:56.436403
 
 """
@@ -10,7 +10,6 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
 
 # revision identifiers, used by Alembic.
 revision: str = "6e2d31e1e81e"
