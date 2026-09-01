@@ -9,7 +9,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from hydromosaic.database import Outlet, Variable, Datafile, Model, Scenario, Timeseries
 
-
 logger = logging.getLogger(__name__)
 
 
